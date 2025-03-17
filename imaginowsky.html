@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Music Feedback Form</title>
+  <style>
+    /* General body styling */
+    body {
+      background-color: transparent; /* Transparent background */
+      color: #ffffff; /* White text */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* Full viewport height */
+    }
+
+    /* Form container styling */
+    .form-container {
+      background-color: #1e1e1e; /* Dark background for the form */
+      padding: 30px; /* Equal padding inside the container */
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow */
+      width: 90%; /* Responsive width */
+      max-width: 600px; /* Maximum width */
+      margin: 20px; /* Equal margin around the container */
+    }
+
+    /* Fieldset styling */
+    fieldset {
+      border: 1px solid #333; /* Dark border */
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    /* Legend styling */
+    legend {
+      color: #ffffff; /* White text */
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+
+    /* Input field styling */
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #444; /* Dark border */
+      border-radius: 5px;
+      background-color: #2d2d2d; /* Dark input background */
+      color: #ffffff; /* White text */
+      font-size: 1em;
+      margin-top: 5px;
+    }
+
+    /* Input field focus state */
+    .form-control:focus {
+      border-color: #555; /* Slightly lighter border on focus */
+      outline: none;
+      background-color: #3d3d3d; /* Slightly lighter background on focus */
+    }
+
+    /* Submit button styling */
+    .btn {
+      background-color: #6200ea; /* Purple button */
+      color: #ffffff; /* White text */
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Submit button hover effect */
+    .btn:hover {
+      background-color: #3700b3; /* Darker purple on hover */
+    }
+
+    /* Heading styling */
+    h2 {
+      color: #ffffff; /* White text */
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <form action="https://docs.google.com/forms/d/e/1FAIpQLSfzx5H3PiJ8vkufmXMC6tUnOSMgo5oBqQwcB1JFAugENy3pQg/formResponse"
+          target="_self"
+          id="bootstrapForm"
+          method="POST">
+      <fieldset>
+        <h2>Music Feedback Submission<br><small></small></h2>
+      </fieldset>
+
+      <!-- Field type: "short" id: "153560771" -->
+      <fieldset>
+        <legend for="153560771">Your nickname (twitch, kick etc.)</legend>
+        <div class="form-group">
+          <input id="1075641306" type="text" name="entry.1075641306" class="form-control">
+        </div>
+      </fieldset>
+
+      <!-- Field type: "short" id: "1890283879" -->
+      <fieldset>
+        <legend for="1890283879">Submit your URL that allows to play it in the browser.</legend>
+        <div class="form-group">
+          <input id="112540147" type="text" name="entry.112540147" class="form-control">
+        </div>
+      </fieldset>
+
+      <input type="hidden" name="fvv" value="1">
+      <input type="hidden" name="fbzx" value="2823121675454619608">
+      <input type="hidden" name="pageHistory" value="0">
+
+      <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+  </div>
+</body>
+</html>
