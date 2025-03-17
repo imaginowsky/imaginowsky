@@ -5,78 +5,68 @@
   <style>
     /* General body styling */
     body {
-      background-color: transparent; /* Transparent background */
-      color: #ffffff; /* White text */
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
+      flex-direction: column; /* Stack buttons and form vertically */
       justify-content: center;
       align-items: center;
       min-height: 100vh; /* Full viewport height */
+      background-image: url('https://unsplash.com/photos/DjlKxYFJlTc/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzQyMjMxNjY5fA&force=true'); /* High-res background image */
+      background-size: cover; /* Cover the entire page */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Prevent repeating */
+      color: #ffffff; /* White text */
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navigation buttons container */
+    .nav-buttons {
+      text-align: center;
+      margin-bottom: 20px; /* Space between buttons and form */
+    }
+
+    /* Navigation button styling */
+    .nav-btn {
+      background-color: #1e1e1e; /* Same grey as the form container */
+      color: #ffffff; /* White text */
+      padding: 10px 20px;
+      border: none; /* Remove border */
+      border-radius: 5px; /* Rounded corners */
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none; /* Remove underline from links */
+      display: inline-block; /* Make links behave like buttons */
+      margin: 5px; /* Add some spacing between buttons */
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Smaller shadow */
+    }
+
+    .nav-btn:hover {
+      background-color: #2d2d2d; /* Slightly lighter grey on hover */
     }
 
     /* Form container styling */
     .form-container {
-      background-color: #1e1e1e; /* Dark background for the form */
+      background-color: rgba(30, 30, 30, 0.9); /* Semi-transparent dark background */
       padding: 30px; /* Equal padding inside the container */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow */
       width: 90%; /* Responsive width */
       max-width: 600px; /* Maximum width */
-      margin: 20px; /* Equal margin around the container */
+      min-height: 400px; /* Consistent height for all pages */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    /* Fieldset styling */
-    fieldset {
-      border: 1px solid #333; /* Dark border */
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 20px;
+    /* Section styling */
+    .section {
+      display: none; /* Hide all sections by default */
     }
 
-    /* Legend styling */
-    legend {
-      color: #ffffff; /* White text */
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-bottom: 10px;
-    }
-
-    /* Input field styling */
-    .form-control {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #444; /* Dark border */
-      border-radius: 5px;
-      background-color: #2d2d2d; /* Dark input background */
-      color: #ffffff; /* White text */
-      font-size: 1em;
-      margin-top: 5px;
-    }
-
-    /* Input field focus state */
-    .form-control:focus {
-      border-color: #555; /* Slightly lighter border on focus */
-      outline: none;
-      background-color: #3d3d3d; /* Slightly lighter background on focus */
-    }
-
-    /* Submit button styling */
-    .btn {
-      background-color: #6200ea; /* Purple button */
-      color: #ffffff; /* White text */
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    /* Submit button hover effect */
-    .btn:hover {
-      background-color: #3700b3; /* Darker purple on hover */
+    .section.active {
+      display: block; /* Show the active section */
     }
 
     /* Heading styling */
@@ -85,40 +75,139 @@
       text-align: center;
       margin-bottom: 20px;
     }
+
+    /* Input field styling */
+    .form-control {
+      width: calc(100% - 20px); /* Account for padding */
+      padding: 10px;
+      border: 1px solid #444; /* Dark border */
+      border-radius: 5px;
+      background-color: #2d2d2d; /* Dark input background */
+      color: #ffffff; /* White text */
+      font-size: 1em;
+      margin: 10px 0; /* Add vertical spacing */
+    }
+
+    /* Remove white outline on focus */
+    .form-control:focus {
+      outline: none; /* Remove default focus outline */
+      border-color: #555; /* Slightly lighter border on focus */
+      background-color: #3d3d3d; /* Slightly lighter background on focus */
+    }
+
+    /* Remove white lines around fieldsets and legends */
+    fieldset {
+      border: none; /* Remove border */
+      margin: 0; /* Remove margin */
+      padding: 0; /* Remove padding */
+    }
+
+    legend {
+      color: #ffffff; /* White text */
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-bottom: 10px;
+      padding: 0; /* Remove padding */
+    }
+
+    /* Submit button styling */
+    .btn {
+      background-color: transparent; /* Remove background */
+      color: #ffffff; /* White text */
+      padding: 10px 20px;
+      border: 1px solid #444; /* Same grey outline as textboxes */
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      margin-top: 20px; /* Add spacing above the submit button */
+    }
+
+    .btn:hover {
+      background-color: rgba(255, 255, 255, 0.1); /* Slight hover effect */
+      border-color: #555; /* Lighten border on hover */
+    }
+
+    /* About and Contact sections */
+    .section p {
+      text-align: center;
+      margin: 20px 0; /* Add spacing around paragraphs */
+    }
+
+    /* Move the second textbox and label lower */
+    fieldset:nth-of-type(2) {
+      margin-top: 40px; /* Increased spacing above the second textbox */
+    }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <form action="https://docs.google.com/forms/d/e/1FAIpQLSfzx5H3PiJ8vkufmXMC6tUnOSMgo5oBqQwcB1JFAugENy3pQg/formResponse"
-          target="_self"
-          id="bootstrapForm"
-          method="POST">
-      <fieldset>
-        <h2>Music Feedback Submission<br><small></small></h2>
-      </fieldset>
-
-      <!-- Field type: "short" id: "153560771" -->
-      <fieldset>
-        <legend for="153560771">Your nickname (twitch, kick etc.)</legend>
-        <div class="form-group">
-          <input id="1075641306" type="text" name="entry.1075641306" class="form-control">
-        </div>
-      </fieldset>
-
-      <!-- Field type: "short" id: "1890283879" -->
-      <fieldset>
-        <legend for="1890283879">Submit your URL that allows to play it in the browser.</legend>
-        <div class="form-group">
-          <input id="112540147" type="text" name="entry.112540147" class="form-control">
-        </div>
-      </fieldset>
-
-      <input type="hidden" name="fvv" value="1">
-      <input type="hidden" name="fbzx" value="2823121675454619608">
-      <input type="hidden" name="pageHistory" value="0">
-
-      <input class="btn btn-primary" type="submit" value="Submit">
-    </form>
+  <!-- Navigation Buttons -->
+  <div class="nav-buttons">
+    <button class="nav-btn" onclick="showSection('form')">Form</button>
+    <button class="nav-btn" onclick="showSection('about')">About</button>
+    <button class="nav-btn" onclick="showSection('contact')">Contact</button>
   </div>
+
+  <!-- Form Container -->
+  <div class="form-container">
+    <!-- Form Section -->
+    <div id="form" class="section active">
+      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfzx5H3PiJ8vkufmXMC6tUnOSMgo5oBqQwcB1JFAugENy3pQg/formResponse"
+            target="_self"
+            id="bootstrapForm"
+            method="POST">
+        <fieldset>
+          <h2>Music Feedback Submission<br><small></small></h2>
+        </fieldset>
+
+        <!-- Field type: "short" id: "153560771" -->
+        <fieldset>
+          <legend for="153560771">Your nickname (twitch, kick etc.)</legend>
+          <div class="form-group">
+            <input id="1075641306" type="text" name="entry.1075641306" class="form-control">
+          </div>
+        </fieldset>
+
+        <!-- Field type: "short" id: "1890283879" -->
+        <fieldset style="margin-top: 40px;"> <!-- Move this entire section down -->
+          <legend for="1890283879">Submit your URL that allows to play it in the browser.</legend>
+          <div class="form-group">
+            <input id="112540147" type="text" name="entry.112540147" class="form-control">
+          </div>
+        </fieldset>
+
+        <input type="hidden" name="fvv" value="1">
+        <input type="hidden" name="fbzx" value="2823121675454619608">
+        <input type="hidden" name="pageHistory" value="0">
+
+        <input class="btn btn-primary" type="submit" value="Submit">
+      </form>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="section">
+      <h2>About This Project</h2>
+      <p>This is the about page for my custom Google Form project.</p>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="section">
+      <h2>Contact Us</h2>
+      <p>If you have any questions, feel free to reach out!</p>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript to toggle sections
+    function showSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Show the selected section
+      document.getElementById(sectionId).classList.add('active');
+    }
+  </script>
 </body>
 </html>
