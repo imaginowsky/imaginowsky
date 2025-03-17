@@ -58,6 +58,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      position: relative; /* For positioning the notification */
     }
 
     /* Section styling */
@@ -138,6 +139,28 @@
     fieldset:nth-of-type(2) {
       margin-top: 40px; /* Increased spacing above the second textbox */
     }
+
+    /* Notification styling */
+    .notification {
+      position: absolute;
+      bottom: 20px; /* Position at the bottom of the form container */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: transparent; /* Transparent background */
+      color: #ffffff; /* White text */
+      padding: 10px 20px;
+      border: 1px solid #228B22; /* Forest green outline */
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      opacity: 0; /* Start hidden */
+      visibility: hidden; /* Start hidden */
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .notification.show {
+      opacity: 1; /* Fade in */
+      visibility: visible; /* Make visible */
+    }
   </style>
 </head>
 <body>
@@ -152,9 +175,8 @@
   <div class="form-container">
     <!-- Form Section -->
     <div id="form" class="section active">
-      <form action="https://docs.google.com/forms/d/e/1FAIpQLSfzx5H3PiJ8vkufmXMC6tUnOSMgo5oBqQwcB1JFAugENy3pQg/formResponse"
+      <form id="feedbackForm" action="https://docs.google.com/forms/d/e/1FAIpQLSfzx5H3PiJ8vkufmXMC6tUnOSMgo5oBqQwcB1JFAugENy3pQg/formResponse"
             target="_self"
-            id="bootstrapForm"
             method="POST">
         <fieldset>
           <h2>Music Feedback Submission<br><small></small></h2>
@@ -164,7 +186,7 @@
         <fieldset>
           <legend for="153560771">Your nickname (twitch, kick etc.)</legend>
           <div class="form-group">
-            <input id="1075641306" type="text" name="entry.1075641306" class="form-control">
+            <input id="1075641306" type="text" name="entry.1075641306" class="form-control" required>
           </div>
         </fieldset>
 
@@ -172,7 +194,7 @@
         <fieldset style="margin-top: 40px;"> <!-- Move this entire section down -->
           <legend for="1890283879">Submit your URL that allows to play it in the browser.</legend>
           <div class="form-group">
-            <input id="112540147" type="text" name="entry.112540147" class="form-control">
+            <input id="112540147" type="text" name="entry.112540147" class="form-control" required>
           </div>
         </fieldset>
 
@@ -182,6 +204,11 @@
 
         <input class="btn btn-primary" type="submit" value="Submit">
       </form>
+
+      <!-- Notification -->
+      <div id="notification" class="notification">
+        Submission sent successfully!
+      </div>
     </div>
 
     <!-- About Section -->
@@ -208,6 +235,31 @@
       // Show the selected section
       document.getElementById(sectionId).classList.add('active');
     }
+
+    // Handle form submission
+    document.getElementById('feedbackForm').addEventListener('submit', function (e) {
+      e.preventDefault(); // Prevent the default form submission
+
+      // Show the notification
+      const notification = document.getElementById('notification');
+      notification.classList.add('show');
+
+      // Submit the form data
+      const formData = new FormData(this);
+      fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors', // Required for Google Forms
+      }).then(() => {
+        // Hide the notification after 3 seconds
+        setTimeout(() => {
+          notification.classList.remove('show');
+        }, 3000);
+      });
+
+      // Reset the form
+      this.reset();
+    });
   </script>
 </body>
 </html>
