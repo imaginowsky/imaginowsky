@@ -2,6 +2,9 @@
 <html>
 <head>
   <title>Music Feedback Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Load Michroma font -->
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
   <style>
     /* General body styling */
     body {
@@ -12,28 +15,53 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh; /* Full viewport height */
-      background-image: url('https://unsplash.com/photos/DjlKxYFJlTc/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzQyMjMxNjY5fA&force=true'); /* High-res background image */
-      background-size: cover; /* Cover the entire page */
-      background-position: center; /* Center the image */
-      background-repeat: no-repeat; /* Prevent repeating */
-      color: #ffffff; /* White text */
-      font-family: Arial, sans-serif;
+      background-color: #000; /* Black background as placeholder */
+      color: #bfbfbf; /* Updated text color */
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font globally */
+      font-weight: normal; /* Ensure no bold text */
+    }
+
+    /* Video background container */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ensure the video covers the entire background */
+      z-index: -2; /* Place behind other content */
+      opacity: 1; /* Start visible */
+      transition: opacity 1s ease; /* Smooth fade transition */
+    }
+
+    /* Musical alias in the top-left corner */
+    .alias {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5em;
+      color: #bfbfbf; /* Updated text color */
+      font-weight: normal; /* Ensure no bold text */
+      z-index: 1; /* Ensure it's above the video */
     }
 
     /* Navigation buttons container */
     .nav-buttons {
       text-align: center;
       margin-bottom: 20px; /* Space between buttons and form */
+      z-index: 1; /* Ensure it's above the video */
     }
 
     /* Navigation button styling */
     .nav-btn {
-      background-color: #1e1e1e; /* Same grey as the form container */
-      color: #ffffff; /* White text */
+      background-color: rgba(20, 20, 20, 0.8); /* Darker grey */
+      color: #bfbfbf; /* Updated text color */
       padding: 10px 20px;
       border: none; /* Remove border */
       border-radius: 5px; /* Rounded corners */
       font-size: 1em;
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
       cursor: pointer;
       transition: background-color 0.3s ease;
       text-decoration: none; /* Remove underline from links */
@@ -43,12 +71,12 @@
     }
 
     .nav-btn:hover {
-      background-color: #2d2d2d; /* Slightly lighter grey on hover */
+      background-color: rgba(35, 35, 35, 0.8); /* Slightly lighter grey on hover */
     }
 
     /* Form container styling */
     .form-container {
-      background-color: rgba(30, 30, 30, 0.9); /* Semi-transparent dark background */
+      background-color: rgba(20, 20, 20, 0.8); /* Darker semi-transparent background */
       padding: 30px; /* Equal padding inside the container */
       border-radius: 10px; /* Rounded corners */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow */
@@ -59,41 +87,59 @@
       flex-direction: column;
       justify-content: center;
       position: relative; /* For positioning the notification */
+      z-index: 1; /* Ensure it's above the video */
     }
 
     /* Section styling */
     .section {
-      display: none; /* Hide all sections by default */
+      position: absolute; /* Position sections absolutely */
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0; /* Start hidden */
+      transform: translateY(10px); /* Slight offset for fade-in effect */
+      visibility: hidden; /* Hide sections by default */
+      transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transitions */
     }
 
     .section.active {
-      display: block; /* Show the active section */
+      opacity: 1; /* Fade in */
+      transform: translateY(0); /* Reset offset */
+      visibility: visible; /* Show the active section */
     }
 
     /* Heading styling */
     h2 {
-      color: #ffffff; /* White text */
+      color: #bfbfbf; /* Updated text color */
       text-align: center;
       margin-bottom: 20px;
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
     }
 
     /* Input field styling */
     .form-control {
-      width: calc(100% - 20px); /* Account for padding */
+      width: calc(100% - 40px); /* Account for padding and spacing */
       padding: 10px;
       border: 1px solid #444; /* Dark border */
       border-radius: 5px;
-      background-color: #2d2d2d; /* Dark input background */
-      color: #ffffff; /* White text */
+      background-color: rgba(35, 35, 35, 0.8); /* Darker input background */
+      color: #bfbfbf; /* Updated text color */
       font-size: 1em;
-      margin: 10px 0; /* Add vertical spacing */
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
+      margin: 10px 20px; /* Add vertical and horizontal spacing */
+      transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
+      box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
     }
 
-    /* Remove white outline on focus */
+    /* Subtle glow effect on hover and focus (outer edges only) */
+    .form-control:hover,
     .form-control:focus {
       outline: none; /* Remove default focus outline */
-      border-color: #555; /* Slightly lighter border on focus */
-      background-color: #3d3d3d; /* Slightly lighter background on focus */
+      border-color: #555; /* Slightly lighter border on hover/focus */
+      box-shadow: 0 0 10px rgba(191, 191, 191, 0.5); /* Subtle glow effect */
+      background-color: rgba(45, 45, 45, 0.8); /* Keep the inside consistent */
     }
 
     /* Remove white lines around fieldsets and legends */
@@ -104,24 +150,28 @@
     }
 
     legend {
-      color: #ffffff; /* White text */
-      font-weight: bold;
-      font-size: 1.1em;
+      color: #bfbfbf; /* Updated text color */
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-size: 1em; /* Match font size with other text */
+      font-weight: normal; /* Ensure no bold text */
       margin-bottom: 10px;
-      padding: 0; /* Remove padding */
+      padding: 0 20px; /* Align with text boxes */
     }
 
     /* Submit button styling */
     .btn {
       background-color: transparent; /* Remove background */
-      color: #ffffff; /* White text */
+      color: #bfbfbf; /* Updated text color */
       padding: 10px 20px;
       border: 1px solid #444; /* Same grey outline as textboxes */
       border-radius: 5px;
       font-size: 1em;
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
       cursor: pointer;
       transition: background-color 0.3s ease, border-color 0.3s ease;
-      margin-top: 20px; /* Add spacing above the submit button */
+      margin: 20px 20px 0; /* Align with text boxes */
+      width: auto; /* Revert to original width */
     }
 
     .btn:hover {
@@ -133,6 +183,8 @@
     .section p {
       text-align: center;
       margin: 20px 0; /* Add spacing around paragraphs */
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
     }
 
     /* Move the second textbox and label lower */
@@ -147,7 +199,7 @@
       left: 50%;
       transform: translateX(-50%);
       background-color: transparent; /* Transparent background */
-      color: #ffffff; /* White text */
+      color: #bfbfbf; /* Updated text color */
       padding: 10px 20px;
       border: 1px solid #228B22; /* Forest green outline */
       border-radius: 5px;
@@ -155,20 +207,99 @@
       opacity: 0; /* Start hidden */
       visibility: hidden; /* Start hidden */
       transition: opacity 0.5s ease, visibility 0.5s ease;
+      font-family: 'Michroma', sans-serif; /* Apply Michroma font */
+      font-weight: normal; /* Ensure no bold text */
     }
 
     .notification.show {
       opacity: 1; /* Fade in */
       visibility: visible; /* Make visible */
     }
+
+    /* Custom video background input styling */
+    .custom-bg-input {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 1; /* Ensure it's above the video */
+    }
+
+    .custom-bg-input input {
+      width: 200px;
+      padding: 5px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: rgba(45, 45, 45, 0.7);
+      color: #bfbfbf;
+      font-family: 'Michroma', sans-serif;
+    }
+
+    .custom-bg-input button {
+      padding: 5px 10px;
+      background-color: rgba(30, 30, 30, 0.7);
+      color: #bfbfbf;
+      border: 1px solid #444;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Michroma', sans-serif;
+    }
+
+    .custom-bg-input button:hover {
+      background-color: rgba(45, 45, 45, 0.7);
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .form-container, .content-container {
+        width: 95%; /* Increase width for smaller screens */
+        padding: 20px; /* Reduce padding */
+      }
+
+      .nav-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+      }
+
+      .nav-btn {
+        width: 100%; /* Full-width buttons */
+        margin: 5px 0; /* Adjust spacing */
+      }
+
+      .custom-bg-input {
+        top: 80px; /* Move below the alias */
+        right: 10px;
+      }
+
+      .custom-bg-input input {
+        width: 150px; /* Smaller input for mobile */
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Video background -->
+  <video id="video-bg" class="video-background" loop muted autoplay>
+    <source src="https://cdn.pixabay.com/video/2024/10/08/235285_medium.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Musical alias in the top-left corner -->
+  <div class="alias">IMAGINOWSKY</div>
+
+  <!-- Custom video background input -->
+  <div class="custom-bg-input">
+    <input type="text" id="video-url" placeholder="Paste video URL (.mp4)">
+    <button onclick="applyVideoBackground()">Apply</button>
+  </div>
+
   <!-- Navigation Buttons -->
   <div class="nav-buttons">
     <button class="nav-btn" onclick="showSection('form')">Form</button>
     <button class="nav-btn" onclick="showSection('about')">About</button>
     <button class="nav-btn" onclick="showSection('contact')">Contact</button>
+    <button class="nav-btn" onclick="window.location.href='new-page.html'">New HTML</button>
   </div>
 
   <!-- Form Container -->
@@ -225,40 +356,83 @@
   </div>
 
   <script>
-    // JavaScript to toggle sections
+    // JavaScript to toggle sections with improved crossfade animation
     function showSection(sectionId) {
-      // Hide all sections
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-      });
+      const sections = document.querySelectorAll('.section');
+      const currentActive = document.querySelector('.section.active');
 
-      // Show the selected section
-      document.getElementById(sectionId).classList.add('active');
+      // If the clicked section is already active, do nothing
+      if (currentActive && currentActive.id === sectionId) return;
+
+      // Fade out the current active section
+      if (currentActive) {
+        currentActive.style.opacity = 0;
+        setTimeout(() => {
+          currentActive.classList.remove('active');
+        }, 500); // Wait for fade-out to complete
+      }
+
+      // Show the new section in the background
+      const newSection = document.getElementById(sectionId);
+      newSection.style.display = 'block';
+      newSection.style.opacity = 0;
+
+      // Force a reflow to ensure the new section is rendered and sized correctly
+      void newSection.offsetHeight;
+
+      // Fade in the new section after it's fully prepared
+      setTimeout(() => {
+        newSection.style.opacity = 1;
+        newSection.classList.add('active');
+      }, 10); // Small delay to ensure the new section is ready
     }
 
     // Handle form submission
     document.getElementById('feedbackForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent the default form submission
+      e.preventDefault();
 
-      // Show the notification
       const notification = document.getElementById('notification');
       notification.classList.add('show');
 
-      // Submit the form data
       const formData = new FormData(this);
       fetch(this.action, {
         method: 'POST',
         body: formData,
-        mode: 'no-cors', // Required for Google Forms
+        mode: 'no-cors',
       }).then(() => {
-        // Hide the notification after 3 seconds
         setTimeout(() => {
           notification.classList.remove('show');
         }, 3000);
       });
 
-      // Reset the form
       this.reset();
+    });
+
+    // Video background functionality
+    const videoBg = document.getElementById('video-bg');
+
+    function applyVideoBackground() {
+      const url = document.getElementById('video-url').value;
+      if (url && url.endsWith('.mp4')) {
+        videoBg.src = url;
+        videoBg.play();
+      } else {
+        alert('Please enter a valid .mp4 URL.');
+      }
+    }
+
+    videoBg.addEventListener('ended', () => {
+      videoBg.style.opacity = 0;
+      setTimeout(() => {
+        videoBg.currentTime = 0;
+        videoBg.play();
+        videoBg.style.opacity = 1;
+      }, 1000);
+    });
+
+    // Show the form section by default on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('form');
     });
   </script>
 </body>
